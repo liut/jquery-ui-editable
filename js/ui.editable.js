@@ -1,7 +1,17 @@
 (function($) {
 
 $.widget('ui.editable', {
-	_init: function() {
+    options: {
+        finishOnKey: 13,
+        finishOnBlur: true,
+        autoFocus: true,
+        autoSelect: true,
+        eventStart: 'dblclick',
+        validation: false,
+        buttons: {},
+        sync: false
+    },
+	_create: function() {
 		this.element.addClass('ui-editable');
 		this.element.bind(this.options.eventStart, function() {
 			$(this).editable('start');
@@ -68,18 +78,8 @@ $.widget('ui.editable', {
 });
 
 $.extend($.ui.editable, {
-	version: "0.1",
 	eventPrefix: 'edit',
-	defaults: {
-		finishOnKey: 13,
-		finishOnBlur: true,
-		autoFocus: true,
-		autoSelect: true,
-		eventStart: 'dblclick',
-		validation: false,
-		buttons: {},
-		sync: false
-	}
+	version: "0.2"
 });
 
 })(jQuery);
