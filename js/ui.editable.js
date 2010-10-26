@@ -1,16 +1,16 @@
 (function($) {
 
 $.widget('ui.editable', {
-    options: {
-        finishOnKey: 13,
-        finishOnBlur: true,
-        autoFocus: true,
-        autoSelect: true,
-        eventStart: 'dblclick',
-        validation: false,
-        buttons: {},
-        sync: false
-    },
+	options: {
+		finishOnKey: 13,
+		finishOnBlur: true,
+		autoFocus: true,
+		autoSelect: true,
+		eventStart: 'dblclick',
+		validation: false,
+		buttons: {},
+		sync: false
+	},
 	_create: function() {
 		this.element.addClass('ui-editable');
 		this.element.bind(this.options.eventStart, function() {
@@ -36,10 +36,10 @@ $.widget('ui.editable', {
 			$input.keydown(function(e) {
 				if( elem.editable('option', 'finishOnKey') && e.keyCode == elem.editable('option', 'finishOnKey')) $(this).trigger('blur', true);
 			});
-			elem.trigger(this.widgetEventPrefix + 'Start');
+			this._trigger('start');
 		}
 	},
-	finish: function() {
+	finish: function(event) {
 		var elem = this.element;
 		if( elem.data('editing') ) {
 			var validation = elem.editable('option', 'validation');
@@ -53,7 +53,7 @@ $.widget('ui.editable', {
 					elem.text( elem.find('input').val() );
 					elem.data('editing', false);
 				}
-				elem.trigger(this.widgetEventPrefix + 'Finish');
+				this._trigger('finish', event, val);
 			}
 		}
 	},
@@ -62,7 +62,7 @@ $.widget('ui.editable', {
 		if( elem.data('editing') ) {
 			elem.text( elem.find('span').attr('title') );
 			elem.data('editing', false);
-			elem.trigger(this.widgetEventPrefix + 'Cancel');
+			this._trigger('cancel');
 		}
 	},
 	_buildButtons: function() {
@@ -78,7 +78,6 @@ $.widget('ui.editable', {
 });
 
 $.extend($.ui.editable, {
-	eventPrefix: 'edit',
 	version: "0.2"
 });
 
